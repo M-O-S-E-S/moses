@@ -1,0 +1,74 @@
+# MGM client-front-end
+
+server {
+        listen 443;
+
+        server_name sample.org;
+        server_tokens off;
+
+        proxy_set_header   Host $http_host;
+        proxy_set_header   X-Real-IP $remote_addr;
+        proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header   X-Forwarded-Proto $scheme;
+
+        client_max_body_size 2g;
+        client_body_buffer_size 128k;
+
+        proxy_connect_timeout   90;
+        proxy_send_timeout      90;
+        proxy_read_timeout      90;
+
+        # serve html5 web client files
+        location / {
+                root /usr/share/nginx/html;
+                try_files $uri $uri/ $uri/index.html /index.html;
+        }
+
+        # this route is for MGM services
+        location /api/ {
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_set_header Host $http_host;
+                proxy_set_header X-NginX-Proxy true;
+
+                proxy_pass http://mgmt:3000/api/;
+                proxy_redirect off;
+        }
+
+        # proxy for user server
+        location /login/ {
+                proxy_pass http://127.0.0.1:8002/;
+        }
+
+        access_log /var/log/nginx/halcyon_access.log;
+        error_log  /var/log/nginx/halcyon_error.log;
+
+        ssl on;
+        ssl_certificate /etc/nginx/ssl/site.crt;
+        ssl_certificate_key /etc/nginx/ssl/site.key;
+}
+
+server {
+        listen 80;
+
+        server_name sample.org;
+        server_tokens off;
+
+        # proxy for client aperture access
+        location /CAPS {
+                proxy_pass http://127.0.0.1:8000/CAPS;
+        }
+
+        location /get_grid_info {
+                proxy_pass http://mgmt:3000/get_grid_info;
+        }
+
+        location /fsapi {
+                proxy_pass http://fsapi:3000/fsapi;
+        }
+
+        location / {
+                return 301 https://$host$request_uri;
+        }
+
+}

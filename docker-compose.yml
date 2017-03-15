@@ -1,0 +1,91 @@
+version: '2'
+services:
+
+  mgmt:
+    build: ./mgmt
+    command: [node, /mgm/server.js]
+    volumes:
+     - ./mgmt/src/build:/mgm
+     - ./mgmt/src/node_modules:/mgm/node_modules
+    ports:
+     - "3000:3001"
+    environment:
+      MGM_DB_HOST: mgmt-mysql
+      MGM_DB_DATABASE: mgm
+      MGM_DB_USER: mgm
+      MGM_DB_PASS: mgm
+      HAL_DB_HOST: halcyon-mysql
+      HAL_DB_DATABASE: hal
+      HAL_DB_USER: hal
+      HAL_DB_PASS: hal
+    links:
+     - mgmt-mysql
+     - halcyon-mysql
+    # - redis
+  mgmt-mysql:
+    image: mysql:5.7
+    volumes:
+     - ./mgmt-mysql/data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: mgm
+      MYSQL_DATABASE: mgm
+      MYSQL_USER: mgm
+      MYSQL_PASSWORD: mgm
+  #redis:
+  #  image: "redis:alpine"
+
+  halcyon-mysql:
+    image: mysql:5.7
+    volumes:
+     - ./halcyon-mysql/data:/var/lib/mysql
+    ports:
+     - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: hal
+      MYSQL_DATABASE: hal
+      MYSQL_USER: hal
+      MYSQL_PASSWORD: hal
+
+  fsapi:
+    build: ./fsapi
+    volumes:
+     - ./fsapi/src/build:/freeswitch
+    ports:
+     - "3001:3001"
+    environment:
+      FREESWITCH_IP: 75.112.65.61
+  freeswitch:
+    build: ./freeswitch
+    volumes:
+     - ./freeswitch/conf:/etc/freeswitch:ro
+    ports:
+     - "5060:5060"
+     - "10000-10100:10000-10100/udp"
+    links:
+     - fsapi
+
+  offline-msgs:
+    build: ./offline-messages
+    volumes:
+     - ./offline-messages/src/build:/msgs
+    ports:
+     - "3002:3000"
+
+  webserver:
+    image: nginx:1.10-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+     - ./webserver/src/build:/usr/share/nginx/html:ro
+     - ./webserver/nginx.site:/etc/nginx/conf.d/default.conf:ro
+     - ./webserver/certs:/etc/nginx/ssl/:ro
+    links:
+     - mgmt
+     - fsapi
+
+  #whip:
+  #  build: ./whip
+  #  volumes:
+  #   - ./whip/whip-server:/whip
+  #   - ./whip/assets:/assets

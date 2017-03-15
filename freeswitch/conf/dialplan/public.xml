@@ -1,0 +1,26 @@
+<!--
+    This context is the default for port 5080.
+    
+    Inbound calls from service providers and unauthenticated
+    calls from public Internet are landed here.
+-->
+
+<include>
+  <context name="public">
+
+    <extension name="common_variables" continue="true">
+      <condition break="never">
+        <action application="set" data="default_language=en"/>
+      </condition>      
+    </extension>
+    
+    <extension name="call_debug" continue="true">
+      <condition field="${call_debug}" expression="^true$" break="never">
+        <action application="info"/>
+      </condition>
+    </extension>
+
+    <X-PRE-PROCESS cmd="include" data="public/*.xml"/>
+    
+  </context>
+</include>

@@ -1,0 +1,12 @@
+<configuration name="xml_curl.conf" description="cURL XML Gateway">
+    <bindings>
+        <binding name="example">
+            <param name="gateway-url" value="http://fsapi:3001/fsapi/freeswitch-config" bindings="directory"/>
+            <param name="disable-100-continue" value="true"/>
+        </binding>
+        <binding name="local">
+            <param name="gateway-url" value="http://fsapi:3000/fsapi/freeswitch-config" bindings="dialplan"/>
+            <param name="disable-100-continue" value="true"/>
+        </binding>
+    </bindings>
+</configuration>
