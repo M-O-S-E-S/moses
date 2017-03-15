@@ -84,8 +84,8 @@ services:
      - mgmt
      - fsapi
 
-  #whip:
-  #  build: ./whip
-  #  volumes:
-  #   - ./whip/whip-server:/whip
-  #   - ./whip/assets:/assets
+  whip:
+    build: ./whip
+    volumes:
+     - ./whip/whip.cfg:/whip/build/whip.cfg
+     - ./whip/assets:/assets
