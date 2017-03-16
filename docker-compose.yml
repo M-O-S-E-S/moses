@@ -6,7 +6,7 @@ services:
     command: [node, /mgm/server.js]
     volumes:
      - ./mgmt/src/build:/mgm
-     - ./mgmt/src/node_modules:/mgm/node_modules
+     - ./mgmt/src/node_modules:/mgm/node_modules:ro
     ports:
      - "3000:3001"
     environment:
@@ -49,7 +49,7 @@ services:
   fsapi:
     build: ./fsapi/context
     volumes:
-     - ./fsapi/src/build:/freeswitch
+     - ./fsapi/src/build:/freeswitch:ro
     ports:
      - "3001:3001"
     environment:
@@ -92,6 +92,14 @@ services:
   aperture:
     build: ./aperture/context
     volumes:
-     - ./aperture/aperture.cfg:/aperture/build/aperture.cfg
+     - ./aperture/aperture.cfg:/aperture/build/aperture.cfg:ro
     links:
      - whip
+
+  gridserver:
+    build: ./gridserver/context
+    volumes:
+     - ./gridserver/GridServer_Config.xml:/halcyon/bin/GridServer_Config.xml:ro
+    links:
+     - aperture
+     - halcyon-mysql
