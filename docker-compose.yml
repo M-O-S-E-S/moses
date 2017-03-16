@@ -2,7 +2,7 @@ version: '2'
 services:
 
   mgmt:
-    build: ./mgmt
+    build: ./mgmt/context
     command: [node, /mgm/server.js]
     volumes:
      - ./mgmt/src/build:/mgm
@@ -47,7 +47,7 @@ services:
       MYSQL_PASSWORD: hal
 
   fsapi:
-    build: ./fsapi
+    build: ./fsapi/context
     volumes:
      - ./fsapi/src/build:/freeswitch
     ports:
@@ -55,7 +55,7 @@ services:
     environment:
       FREESWITCH_IP: 75.112.65.61
   freeswitch:
-    build: ./freeswitch
+    build: ./freeswitch/context
     volumes:
      - ./freeswitch/conf:/etc/freeswitch:ro
     ports:
@@ -65,7 +65,7 @@ services:
      - fsapi
 
   offline-msgs:
-    build: ./offline-messages
+    build: ./offline-messages/context
     volumes:
      - ./offline-messages/src/build:/msgs
     ports:
@@ -85,7 +85,13 @@ services:
      - fsapi
 
   whip:
-    build: ./whip
+    build: ./whip/context
     volumes:
      - ./whip/whip.cfg:/whip/build/whip.cfg
      - ./whip/assets:/assets
+  aperture:
+    build: ./aperture/context
+    volumes:
+     - ./aperture/aperture.cfg:/aperture/build/aperture.cfg
+    links:
+     - whip
