@@ -112,3 +112,12 @@ services:
     links:
      - halcyon-mysql
      - gridserver
+
+  messagingserver:
+    build: ./messagingserver/context
+    volumes:
+      - ./messagingserver/MessagingServer_Config.xml:/halcyon/bin/MessagingServer_Config.xml:ro
+    links:
+     - halcyon-mysql
+     - gridserver
+     - userserver
