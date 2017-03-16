@@ -100,6 +100,7 @@ services:
     build: ./gridserver/context
     volumes:
      - ./gridserver/GridServer_Config.xml:/halcyon/bin/GridServer_Config.xml:ro
+     - ./mgmt/src/build/certs/cert.pem:/halcyon/bin/server.crt:ro
     links:
      - aperture
      - halcyon-mysql
