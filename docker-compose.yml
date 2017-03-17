@@ -106,10 +106,12 @@ services:
      - halcyon-mysql
 
   userserver:
-    build: ./gridserver/context
+    build: ./userserver/context
     volumes:
      - ./userserver/UserServer_Config.xml:/halcyon/bin/UserServer_Config.xml:ro
      - ./userserver/Halcyon.ini:/halcyon/bin/Halcyon.ini:ro
+     - ./userserver/trustednetworks.txt:/halcyon/bin/trustednetworks.txt:ro
+     - ./mgmt/src/build/certs/cert.pem:/halcyon/bin/server.crt:ro
     links:
      - halcyon-mysql
      - gridserver
@@ -117,7 +119,8 @@ services:
   messagingserver:
     build: ./messagingserver/context
     volumes:
-      - ./messagingserver/MessagingServer_Config.xml:/halcyon/bin/MessagingServer_Config.xml:ro
+     - ./messagingserver/MessagingServer_Config.xml:/halcyon/bin/MessagingServer_Config.xml:ro
+     - ./mgmt/src/build/certs/cert.pem:/halcyon/bin/server.crt:ro
     links:
      - halcyon-mysql
      - gridserver
