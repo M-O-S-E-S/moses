@@ -18,10 +18,11 @@ services:
       HAL_DB_DATABASE: hal
       HAL_DB_USER: hal
       HAL_DB_PASS: hal
+      REDIS_HOST: redis
     links:
      - mgmt-mysql
      - halcyon-mysql
-    # - redis
+     - redis
   mgmt-mysql:
     image: mysql:5.7
     volumes:
@@ -31,8 +32,8 @@ services:
       MYSQL_DATABASE: mgm
       MYSQL_USER: mgm
       MYSQL_PASSWORD: mgm
-  #redis:
-  #  image: "redis:alpine"
+  redis:
+    image: "redis:alpine"
 
   halcyon-mysql:
     image: mysql:5.7
