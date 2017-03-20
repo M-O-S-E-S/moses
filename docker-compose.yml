@@ -19,6 +19,23 @@ services:
       HAL_DB_USER: hal
       HAL_DB_PASS: hal
       REDIS_HOST: redis
+      FREESWITCH_API: http://10.10.0.12:3001/fsapi
+      OFFLINE_MESSAGES_API: http://10.10.0.12:3002/
+      PUBLIC_IP: 10.10.0.12
+      LAN_IP: 10.10.0.12
+      LOG_DIR: './logs'
+      UPLOAD_DIR: './uploads'
+      PRIVATE_KEY: './certs/key.pem'
+      TEMPLATES: '{}'
+      MAIL: '{}'
+      GRID_SERVER: http://10.10.0.12:8001/
+      USER_SERVER: http://10.10.0.12:8002/
+      MESSAGING_SERVER: http://10.10.0.12:8006/
+      WHIP_SERVER: whip://changeme@10.10.0.12:32700
+      GRID_NAME: MOSES Containerized Grid
+      GRID_NICK: MCG
+      LOGIN_URI: http://10.10.0.12:8002/
+      MGM_PUBLIC_ADDRESS: http://10.10.0.12:80/
     links:
      - mgmt-mysql
      - halcyon-mysql
@@ -90,6 +107,8 @@ services:
     volumes:
      - ./whip/whip.cfg:/whip/build/whip.cfg
      - ./whip/assets:/assets
+    ports:
+     - "32700:32700"
   aperture:
     build: ./aperture/context
     volumes:
@@ -102,6 +121,8 @@ services:
     volumes:
      - ./gridserver/GridServer_Config.xml:/halcyon/bin/GridServer_Config.xml:ro
      - ./mgmt/src/build/certs/cert.pem:/halcyon/bin/server.crt:ro
+    ports:
+     - "8001:8001"
     links:
      - aperture
      - halcyon-mysql
@@ -113,6 +134,8 @@ services:
      - ./userserver/Halcyon.ini:/halcyon/bin/Halcyon.ini:ro
      - ./userserver/trustednetworks.txt:/halcyon/bin/trustednetworks.txt:ro
      - ./mgmt/src/build/certs/cert.pem:/halcyon/bin/server.crt:ro
+    ports:
+     - "8002:8002"
     links:
      - halcyon-mysql
      - gridserver
@@ -122,6 +145,8 @@ services:
     volumes:
      - ./messagingserver/MessagingServer_Config.xml:/halcyon/bin/MessagingServer_Config.xml:ro
      - ./mgmt/src/build/certs/cert.pem:/halcyon/bin/server.crt:ro
+    ports:
+     - "8006:8006"
     links:
      - halcyon-mysql
      - gridserver
