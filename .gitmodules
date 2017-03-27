@@ -7,6 +7,3 @@
 [submodule "offline-messages/src"]
 	path = offline-messages/src
 	url = git@github.com:M-O-S-E-S/offline-messages.git
-[submodule "webserver/src"]
-	path = webserver/src
-	url = git@github.com:M-O-S-E-S/mgm-webclient.git

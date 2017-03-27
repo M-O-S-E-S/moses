@@ -20,7 +20,7 @@ server {
 
         # serve html5 web client files
         location / {
-                root /usr/share/nginx/html;
+                root /mgm/build;
                 try_files $uri $uri/ $uri/index.html /index.html;
         }
 
