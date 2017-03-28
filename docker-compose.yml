@@ -3,12 +3,12 @@ services:
 
   mgmt:
     build: ./mgmt/context
-    command: [node, /mgm/server.js]
-    volumes:
-     - ./mgmt/src/build:/mgm
-     - ./mgmt/src/node_modules:/mgm/node_modules:ro
     ports:
      - "3000:3001"
+    volumes:
+     - ./mgmt/certs:/mgm/build/certs:ro
+     - ./mgmt/logs:/mgm/build/logs
+     - ./mgmt/uploads:/mgm/build/uploads
     environment:
       MGM_DB_HOST: mgmt-mysql
       MGM_DB_DATABASE: mgm
