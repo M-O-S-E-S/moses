@@ -4,6 +4,3 @@
 [submodule "fsapi/src"]
 	path = fsapi/src
 	url = git@github.com:M-O-S-E-S/freeswitch-api.git
-[submodule "offline-messages/src"]
-	path = offline-messages/src
-	url = git@github.com:M-O-S-E-S/offline-messages.git

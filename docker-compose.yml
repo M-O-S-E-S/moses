@@ -82,10 +82,10 @@ services:
     links:
      - fsapi
 
-  offline-msgs:
+  offline-messages:
     build: ./offline-messages/context
     volumes:
-     - ./offline-messages/src/build:/msgs
+     - ./offline-messages/msgs:/offline/build/msgs
     ports:
      - "3002:3000"
 
