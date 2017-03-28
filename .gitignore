@@ -1,5 +1,1 @@
-*.key
-*.crt
-halcyon-mysql/data
-mgmt-mysql/data
-whip/assets
+.vscode
