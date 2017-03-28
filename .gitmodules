@@ -1,6 +1,3 @@
 [submodule "mgmt/src"]
 	path = mgmt/src
 	url = git@github.com:M-O-S-E-S/mgm.git
-[submodule "fsapi/src"]
-	path = fsapi/src
-	url = git@github.com:M-O-S-E-S/freeswitch-api.git

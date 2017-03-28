@@ -66,8 +66,6 @@ services:
 
   fsapi:
     build: ./fsapi/context
-    volumes:
-     - ./fsapi/src/build:/freeswitch:ro
     ports:
      - "3001:3001"
     environment:

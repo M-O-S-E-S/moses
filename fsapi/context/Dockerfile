@@ -1,6 +1,9 @@
-FROM mhart/alpine-node:base-6
-ADD . /freeswitch
+FROM nginx:1.10-alpine
+
+RUN apk add --no-cache nodejs git
+RUN git clone https://github.com/M-O-S-E-S/freeswitch-api.git /freeswitch
 WORKDIR /freeswitch
-#RUN pip install -r requirements.txt
-#CMD ["python", "app.py"]
+RUN npm install
+RUN npm run build
+WORKDIR /freeswitch/build
 CMD ["node", "service.js"]
