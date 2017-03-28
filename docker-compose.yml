@@ -117,7 +117,7 @@ services:
     build: ./gridserver/context
     volumes:
      - ./gridserver/GridServer_Config.xml:/halcyon/bin/GridServer_Config.xml:ro
-     - ./mgmt/src/build/certs/cert.pem:/halcyon/bin/server.crt:ro
+     - ./mgmt/certs/cert.pem:/halcyon/bin/server.crt:ro
     ports:
      - "8001:8001"
     links:
@@ -130,7 +130,7 @@ services:
      - ./userserver/UserServer_Config.xml:/halcyon/bin/UserServer_Config.xml:ro
      - ./userserver/Halcyon.ini:/halcyon/bin/Halcyon.ini:ro
      - ./userserver/trustednetworks.txt:/halcyon/bin/trustednetworks.txt:ro
-     - ./mgmt/src/build/certs/cert.pem:/halcyon/bin/server.crt:ro
+     - ./mgmt/certs/cert.pem:/halcyon/bin/server.crt:ro
     ports:
      - "8002:8002"
     links:
@@ -141,7 +141,7 @@ services:
     build: ./messagingserver/context
     volumes:
      - ./messagingserver/MessagingServer_Config.xml:/halcyon/bin/MessagingServer_Config.xml:ro
-     - ./mgmt/src/build/certs/cert.pem:/halcyon/bin/server.crt:ro
+     - ./mgmt/certs/cert.pem:/halcyon/bin/server.crt:ro
     ports:
      - "8006:8006"
     links:
