@@ -39,31 +39,38 @@ As this composition is composed of so many different pieces, we selected docker 
 Configuration is not as simple as it could be, as the mgmNode and Halcyon.exe components must reside outside of the composition on a Windows host for now.
 
 1. Checkout this repository where you would like to host this composition
+
 1. Perform the following configuration steps:
-  i.  SSL certificates.  SSL certs are used in multiple places accross this stack.  you can use different certs for the webserver and for the mgmt portion, but the certs MUST MATCH between the mgmt portion and the Halcyon.exe services.  Put a certificate pair in mgmt/certs/ named cert.pem and key.pem.  Put a certificate pair under webserver/certs (CA issued for convenience) named site.crt and site.key.
-  i.  environment variables.  Please update the following
-    * update mysql credentials as desired, but make sure all occurences match
-    * FREESWITCH_API: use the LAN address of your docker host
-    * OFFLINE_MESSAGES_API: use the LAN address of your docker host
-    * PUBLIC_IP: use the client-addressible address for your new grid
-    * LAN_IP: use the LAN address of your docker host
-    * TEMPLATES: insert the template map here once templates are generated
-    * MAIL: email config for your grid
-    * GRID_SERVER: use the LAN ip for your docker host
-    * USER_SERVER: use the STATIC ip for your grid
-    * MESSAGING_SERVER: use the LAN ip for your host
-    * WHIP_SERVER: use your updated password and the LAN ip for your grid
-    * GRID_NAME: name your grid
-    * GRID_NICK: nickname for your grid
-    * LOGIN_URI: use the STATIC ip for your grid
-    * FREESWITCH_IP: use the STATIC ip for your grid
-  i. Service Configurations:
-    * aperture/aperture.config, update the whip password and to match your earlier configs.  Randomize caps token if desired.
-    * gridserver/GridServer_Config.xml, update the database credentials if needed, and set the default_user_server using your STATIC ip address.
-    * messagingserver/MessagingServer_Config.xml, updating the database credentials if needed, and updating the published_ip to your STATIC ip.
-    * userserver/Halcyon.ini, change the database credentials if needed under [Startup] and [Inventory], and update the GridInfo section if desired.
-    * userserver/UserServer_Config.xml, change the database credentials if needed, and the welcome message.
-    * whip/whip.cfg, update the password if you changed it in the other configs
+
+    1.  SSL certificates.  SSL certs are used in multiple places accross this stack.  you can use different certs for the webserver and for the mgmt portion, but the certs MUST MATCH between the mgmt portion and the Halcyon.exe services.  Put a certificate pair in mgmt/certs/ named cert.pem and key.pem.  Put a certificate pair under webserver/certs (CA issued for convenience) named site.crt and site.key.
+  
+    1.  environment variables.  Please update the following
+  
+        * update mysql credentials as desired, but make sure all occurences match
+        * FREESWITCH_API: use the LAN address of your docker host
+        * OFFLINE_MESSAGES_API: use the LAN address of your docker host
+        * PUBLIC_IP: use the client-addressible address for your new grid
+        * LAN_IP: use the LAN address of your docker host
+        * TEMPLATES: insert the template map here once templates are generated
+        * MAIL: email config for your grid
+        * GRID_SERVER: use the LAN ip for your docker host
+        * USER_SERVER: use the STATIC ip for your grid
+        * MESSAGING_SERVER: use the LAN ip for your host
+        * WHIP_SERVER: use your updated password and the LAN ip for your grid
+        * GRID_NAME: name your grid
+        * GRID_NICK: nickname for your grid
+        * LOGIN_URI: use the STATIC ip for your grid
+        * FREESWITCH_IP: use the STATIC ip for your grid
+        
+    1. Service Configurations:
+    
+        * aperture/aperture.config, update the whip password and to match your earlier configs.  Randomize caps token if desired.
+        * gridserver/GridServer_Config.xml, update the database credentials if needed, and set the default_user_server using your STATIC ip address.
+        * messagingserver/MessagingServer_Config.xml, updating the database credentials if needed, and updating the published_ip to your STATIC ip.
+        * userserver/Halcyon.ini, change the database credentials if needed under [Startup] and [Inventory], and update the GridInfo section if desired.
+        * userserver/UserServer_Config.xml, change the database credentials if needed, and the welcome message.
+        * whip/whip.cfg, update the password if you changed it in the other configs
+        
 1.  Build the containers by issuing `docker-compose up -d`
 1.  Initialize your databases by either
     * execute a mysqldump restore from a compatible database by executing `cat dump.sql | docker exec -it moses_halcyon-mysql_1 mysql -uroot -phal hal` using your updated credentials from docker-compose.yml; whith a similar command for mgmt-mysql
