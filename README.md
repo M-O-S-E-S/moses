@@ -98,7 +98,7 @@ Configuration is not as simple as it could be, as the mgmNode and Halcyon.exe co
     * execute a mysqldump restore from a compatible database by executing `cat dump.sql | docker exec -it moses_halcyon-mysql_1 mysql -uroot -phal hal` using your updated credentials from docker-compose.yml; whith a similar command for mgmt-mysql
     * initialize new databases for a new grid by executing: `./commands/init-halcyon-db.sh` for halcyon, and `./commands/migrate-mgm-db.sh` for mgmt.
     
-1.  MGM Initialization.  You can create any avatar accounts necessary by running `docker exec moses_mgmt_1 node scripts/create-user.js fname lname email password <userlevel>`.  Create at least one administrative account for yourself (access level 250), and two template accounts for Male and Female avatar templating.  Insert their UUIDs into the docker config for TEMPLATES in the form { M: 'xxxx', F: 'xxx } to enable the default templates.  Once the environment is set for MGM to use the templates, you must restart the container.
+1.  MGM Initialization.  If you migrated an existing mgm database to this container, you probably know what you are doing and can skip this.  Create an administative user and the two default template users by running `./commands/first-run-mgm.sh`.  It is an interactive script that will create your administrative user, create the two template users, and update your docker-compose.yml file.
 
 1.  Access your MGM instance via port 443 and login using your administrator account.  you can create and add Hosts, which are windows machines running a configured instance of mgmNode, and which will contain your regions.
 
