@@ -38,13 +38,17 @@ As this composition is composed of so many different pieces, we selected docker 
 
 Configuration is not as simple as it could be, as the mgmNode and Halcyon.exe components must reside outside of the composition on a Windows host for now.
 
+1. Install the latest docker-ce for your platform using directions from docker.com
+
+1. Install the latest stable docker-compose for your platform using directions from https://docs.docker.com/compose/install/
+
 1. Checkout this repository where you would like to host this composition
 
 1. Perform the following configuration steps:
 
     1.  SSL certificates.  SSL certs are used in multiple places accross this stack.  you can use different certs for the webserver and for the mgmt portion, but the certs MUST MATCH between the mgmt portion and the Halcyon.exe services.  Put a certificate pair in mgmt/certs/ named cert.pem and key.pem.  Put a certificate pair under webserver/certs (CA issued for convenience) named site.crt and site.key.
   
-    1.  environment variables.  Please update the following
+    1.  environment variables.  Please update the following in docker-compose.yml
   
         * update mysql credentials as desired, but make sure all occurences match
         * FREESWITCH_API: use the LAN address of your docker host
@@ -72,9 +76,15 @@ Configuration is not as simple as it could be, as the mgmNode and Halcyon.exe co
         * whip/whip.cfg, update the password if you changed it in the other configs
         
 1.  Build the containers by issuing `docker-compose up -d`
+
+    Wait for it.  This composition does not use distributed images, but compiles the components from source.  This will take a while the first time.  The Halcyon services will crash if their database is not initialized yet.  This is expected.
+
 1.  Initialize your databases by either
+
     * execute a mysqldump restore from a compatible database by executing `cat dump.sql | docker exec -it moses_halcyon-mysql_1 mysql -uroot -phal hal` using your updated credentials from docker-compose.yml; whith a similar command for mgmt-mysql
     * initialize new databases for a new grid by executing: `docker exec moses_gridserver_1 hc-database.exe --init -t core -u hal -s hal -p hal` for halcyon, and `docker exec moses_mgmt_1 node scripts/migrate-db.js`
+    
 1.  MGM Initialization.  You can create any avatar accounts necessary by running `docker exec moses_mgmt_1 node scripts/create-user.js fname lname email password <userlevel>`.  Create at least one administrative account for yourself (access level 250), and two template accounts for Male and Female avatar templating.  Insert their UUIDs into the docker config for TEMPLATES in the form { M: 'xxxx', F: 'xxx } to enable the default templates.  Once the environment is set for MGM to use the templates, you must restart the container.
+
 1.  Access your MGM instance via port 443 and login using your administrator account.  you can create and add Hosts, which are windows machines running a configured instance of mgmNode, and which will contain your regions.
 
