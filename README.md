@@ -6,6 +6,20 @@ This composition can be run on a docker host, and any region simulators run on a
 
 This should mostly work, but at the time of this writing no integration testing has been performed.
 
+# security
+
+Using docker-compose while the simulator is unable to be embedded into the composition creates a security hazard.  If it could be embedded you could expose only ports 80, 443, 8000, 8002, and several freeswitch ports for full functionality.  Since regions need access to the grid services contained within the composition, the composition also exposes 3000, 3001, 3001, 3306, 8001, 8006, and 32700.  These ports are for use on your LAN, and none of them should be exposed to the internet. 
+
+Until the Halcyon region simulators can run effectively on linux, and be included within the networking stack of this docker-composition, we strongly recommend placing this host behind a firewall with all traffic blocked except for the following:
+
+    * TCP 80
+    * TCP 443
+    * TCP 8002
+    * TCP/UDP 5060
+    * UDP 10000/10100
+   
+Note that this does not include the UDP/TCP pairs required for each region, which are not mentioned here as the regions are hosted separately on a Windows host that you provide.
+
 # features
 
 This deployment strategy is a docker composition, allowing for a quick set-up and use of an otherwise difficult to configure system.  The system is being separated into replaceable microservices where possible, and sane defaults have been selected where possible.
