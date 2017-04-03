@@ -78,6 +78,7 @@ Configuration is not as simple as it could be, as the mgmNode and Halcyon.exe co
         * GRID_NAME: name your grid
         * GRID_NICK: nickname for your grid
         * LOGIN_URI: use the STATIC ip for your grid
+        * MGM_PUBLIC_ADDESS: use the STATIC ip for your grid
         * FREESWITCH_IP: use the STATIC ip for your grid
         
     1. Service Configurations:
