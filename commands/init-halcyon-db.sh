@@ -31,7 +31,7 @@ echo 'initializing halcyon database'
 echo 'this will erase any existing halcyon data'
 echo 'press ctrl-c within 10 seconds to abort'
 
-# sleep 10
+sleep 10
 
 echo 'proceeding...'
 
